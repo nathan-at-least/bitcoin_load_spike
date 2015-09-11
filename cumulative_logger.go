@@ -132,7 +132,8 @@ func (cp *cumulativePlot) output() (fileContents string) {
 	cumulativeTotal := float64(0.0)
 	txnCountFloat := float64(cp.txnCount)
 
-	for i, count := range cp.buckets[cp.smallestBucket:cp.largestBucket] {
+	for j, count := range cp.buckets[cp.smallestBucket : cp.largestBucket+1] {
+		i := int64(j) + cp.smallestBucket
 		bucketCount := float64(count)
 		cumulativeTotal += bucketCount
 
