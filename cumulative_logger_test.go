@@ -92,6 +92,14 @@ func TestLog(t *testing.T) {
 			}
 			t.Error("Expected bucket", test.expectedBucket, "to be incremented for block timestamp", test.blockTimestamp, "and txn timestamp", test.t.time, ", got", actualBucket)
 		}
+
+		if cl.plots[0].smallestBucket != test.expectedBucket {
+			t.Error("Expected smallestBucket", test.expectedBucket, "but found", cl.plots[0].smallestBucket)
+		}
+
+		if cl.plots[0].largestBucket != test.expectedBucket {
+			t.Error("Expected largestBucket", test.expectedBucket, "but found", cl.plots[0].largestBucket)
+		}
 	}
 }
 
