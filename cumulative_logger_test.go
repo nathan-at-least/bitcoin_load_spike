@@ -104,7 +104,10 @@ func TestLog(t *testing.T) {
 }
 
 func TestOutput(t *testing.T) {
-	expectedOutput := "0 | 0.100000 | 0.400000 | 0.400000\n"
+	expectedOutput := ("" + /* Empty string to satisfy gofmt/ */
+		"3999 | 997.700064 | 0.400000 | 0.400000\n" +
+		"4000 | 1000.000000 | 0.600000 | 1.000000\n")
+
 	cl := CumulativeLogger{
 		[]*cumulativePlot{newCumulativePlot()},
 		"",
@@ -117,5 +120,28 @@ func TestOutput(t *testing.T) {
 
 	if output != expectedOutput {
 		t.Error("Expected output '", expectedOutput, "', got '", output, "'")
+	}
+}
+
+func TestCumulativePlotBucketRange(t *testing.T) {
+	cp := newCumulativePlot()
+
+	cp.incrementBucket(4)
+	cp.incrementBucket(7)
+	cp.incrementBucket(7)
+	cp.incrementBucket(9)
+
+	output := cp.output()
+
+	expected := ("" + /* Empty string to satisfy gofmt/ */
+		"4 | 0.100925 | 0.250000 | 0.250000\n" +
+		"5 | 0.101158 | 0.000000 | 0.250000\n" +
+		"6 | 0.101391 | 0.000000 | 0.250000\n" +
+		"7 | 0.101625 | 0.500000 | 0.750000\n" +
+		"8 | 0.101859 | 0.000000 | 0.750000\n" +
+		"9 | 0.102094 | 0.250000 | 1.000000\n")
+
+	if output != expected {
+		t.Error("Unexpected output:\n", output, "Was expecting:\n", expected)
 	}
 }
