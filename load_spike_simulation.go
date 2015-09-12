@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"math/rand"
-	"time"
 )
 
 /**
@@ -61,8 +60,8 @@ func (lss *LoadSpikeSimulation) Run() {
 		panic("Cannot run LoadSpikeSimulation without a SpikeProfile")
 	}
 
-	// Make sure to seed our randomness
-	rand.Seed(time.Now().UTC().UnixNano())
+	// Make sure we use a deterministic seed:
+	rand.Seed(0)
 
 	// Print simulation parameters
 	fmt.Println("[LoadSpikeSimulation]")
